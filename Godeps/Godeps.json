@@ -4,11 +4,6 @@
 	"GodepVersion": "v80",
 	"Deps": [
 		{
-			"ImportPath": "github.com/davecgh/go-spew/spew",
-			"Comment": "v1.1.0-12-g8991bc2",
-			"Rev": "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
-		},
-		{
 			"ImportPath": "github.com/gorilla/mux",
 			"Comment": "v1.6.1-13-g4dbd923",
 			"Rev": "4dbd923b0c9e99ff63ad54b0e9705ff92d3cdb06"
@@ -17,10 +12,6 @@
 			"ImportPath": "github.com/gorilla/websocket",
 			"Comment": "v1.2.0-38-geb92580",
 			"Rev": "eb925808374e5ca90c83401a40d711dc08c0c0f6"
-		},
-		{
-			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/db",
-			"Rev": "613b72f160125501762c321d0abeb5dfad766248"
 		},
 		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/routes",
@@ -39,11 +30,6 @@
 			"ImportPath": "github.com/lib/pq/oid",
 			"Comment": "go1.0-cutoff-210-gd34b9ff",
 			"Rev": "d34b9ff171c21ad295489235aec8b6626023cd04"
-		},
-		{
-			"ImportPath": "github.com/pkg/errors",
-			"Comment": "v0.8.0-12-g816c908",
-			"Rev": "816c9085562cd7ee03e7f8188a1cfd942858cded"
 		},
 		{
 			"ImportPath": "github.com/urfave/negroni",
