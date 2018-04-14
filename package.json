@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config client/build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node client/build/build.js"
+    "build": "node client/build/build.js",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "simple-peer": "^9.0.0",
