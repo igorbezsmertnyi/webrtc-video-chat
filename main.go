@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"webrtc-video-chat/db"
 
+	"github.com/igorbezsmertnyi/webrtc-video-chat/db"
 	"github.com/igorbezsmertnyi/webrtc-video-chat/routes"
 	"github.com/urfave/negroni"
 )

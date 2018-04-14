@@ -14,12 +14,16 @@
 			"Rev": "eb925808374e5ca90c83401a40d711dc08c0c0f6"
 		},
 		{
+			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/db",
+			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
+		},
+		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/routes",
-			"Rev": "613b72f160125501762c321d0abeb5dfad766248"
+			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
 		},
 		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/ws",
-			"Rev": "613b72f160125501762c321d0abeb5dfad766248"
+			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
 		},
 		{
 			"ImportPath": "github.com/lib/pq",
