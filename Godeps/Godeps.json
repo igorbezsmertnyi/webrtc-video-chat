@@ -1,0 +1,30 @@
+{
+	"ImportPath": "webrtc-video-chat",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.6.1-13-g4dbd923",
+			"Rev": "4dbd923b0c9e99ff63ad54b0e9705ff92d3cdb06"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Comment": "v1.2.0-38-geb92580",
+			"Rev": "eb925808374e5ca90c83401a40d711dc08c0c0f6"
+		},
+		{
+			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/routes",
+			"Rev": "b781ad703559889b1667448bf6a37f0a3a72457d"
+		},
+		{
+			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/ws",
+			"Rev": "b781ad703559889b1667448bf6a37f0a3a72457d"
+		},
+		{
+			"ImportPath": "github.com/urfave/negroni",
+			"Comment": "v0.3.0-13-g22c5532",
+			"Rev": "22c5532ea862c34fdad414e90f8cc00b4f6f4cab"
+		}
+	]
+}
