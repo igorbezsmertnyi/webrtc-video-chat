@@ -5,8 +5,8 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/gorilla/mux",
-			"Comment": "v1.6.1-13-g4dbd923",
-			"Rev": "4dbd923b0c9e99ff63ad54b0e9705ff92d3cdb06"
+			"Comment": "v1.3.0-5-g599cba5",
+			"Rev": "599cba5e7b6137d46ddf58fb1765f5d928e69604"
 		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
@@ -15,15 +15,15 @@
 		},
 		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/db",
-			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
+			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
 		},
 		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/routes",
-			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
+			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
 		},
 		{
 			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/ws",
-			"Rev": "72f3464b094b5f554fb283ecc73de6a430d24da6"
+			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
 		},
 		{
 			"ImportPath": "github.com/lib/pq",
@@ -37,8 +37,8 @@
 		},
 		{
 			"ImportPath": "github.com/urfave/negroni",
-			"Comment": "v0.3.0-13-g22c5532",
-			"Rev": "22c5532ea862c34fdad414e90f8cc00b4f6f4cab"
+			"Comment": "v0.2.0-104-gc0db5fe",
+			"Rev": "c0db5feaa33826cd5117930c8f4ee5c0f565eec6"
 		}
 	]
 }

@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"time"
 
 	"github.com/igorbezsmertnyi/webrtc-video-chat/db"
 	"github.com/igorbezsmertnyi/webrtc-video-chat/routes"
@@ -39,5 +41,13 @@ func main() {
 	routes := routes.NewRoutes()
 	n := negroni.Classic()
 	n.UseHandler(routes)
-	n.Run(addr)
+
+	s := &http.Server{
+		Addr:           addr,
+		Handler:        n,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(s.ListenAndServe())
 }

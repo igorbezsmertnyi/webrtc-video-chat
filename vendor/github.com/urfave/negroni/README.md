@@ -15,12 +15,11 @@ If you like the idea of [Martini](https://github.com/go-martini/martini), but
 you think it contains too much magic, then Negroni is a great fit.
 
 Language Translations:
-* [Deutsch (de_DE)](translations/README_de_de.md)
+* [German (de_DE)](translations/README_de_de.md)
 * [Português Brasileiro (pt_BR)](translations/README_pt_br.md)
-* [简体中文 (zh_CN)](translations/README_zh_CN.md)
-* [繁體中文 (zh_TW)](translations/README_zh_tw.md)
+* [简体中文 (zh_cn)](translations/README_zh_cn.md)
+* [繁體中文 (zh_tw)](translations/README_zh_tw.md)
 * [日本語 (ja_JP)](translations/README_ja_JP.md)
-* [Français (fr_FR)](translations/README_fr_FR.md)
 
 ## Getting Started
 
@@ -68,7 +67,7 @@ You will now have a Go `net/http` webserver running on `localhost:3000`.
 
 ### Packaging
 
-If you are on Debian, `negroni` is also available as [a
+If you are on Debian, you `negroni` is also available as [a
 package](https://packages.debian.org/sid/golang-github-urfave-negroni-dev) that
 you can install via `apt install golang-github-urfave-negroni-dev` (at the time
 of writing, it is in the `sid` repositories).
@@ -191,9 +190,6 @@ func main() {
   n.Run(":8080")
 }
 ```
-If no address is provided, the `PORT` environment variable is used instead.
-If the `PORT` environment variable is not defined, the default address will be used. 
-See [Run](https://godoc.org/github.com/urfave/negroni#Negroni.Run) for a complete description.
 
 In general, you will want to use `net/http` methods and pass `negroni` as a
 `Handler`, as this is more flexible, e.g.:
@@ -344,7 +340,7 @@ handler if the request does not match a file on the filesystem.
 This middleware catches `panic`s and responds with a `500` response code. If
 any other middleware has written a response code or body, this middleware will
 fail to properly send a 500 to the client, as the client has already received
-the HTTP response code. Additionally, an `PanicHandlerFunc` can be attached
+the HTTP response code. Additionally, an `ErrorHandlerFunc` can be attached
 to report 500's to an error reporting service such as Sentry or Airbrake.
 
 Example:
@@ -396,48 +392,18 @@ func main() {
 
   n := negroni.New()
   recovery := negroni.NewRecovery()
-  recovery.PanicHandlerFunc = reportToSentry
+  recovery.ErrorHandlerFunc = reportToSentry
   n.Use(recovery)
   n.UseHandler(mux)
 
   http.ListenAndServe(":3003", n)
 }
 
-func reportToSentry(info *negroni.PanicInformation) {
+func reportToSentry(error interface{}) {
     // write code here to report error to Sentry
 }
 ```
 
-The middleware simply output the informations on STDOUT by default.
-You can customize the output process by using the `SetFormatter()` function.
-
-You can use also the `HTMLPanicFormatter` to display a pretty HTML when a crash occurs.
-
-<!-- { "interrupt": true } -->
-``` go
-package main
-
-import (
-  "net/http"
-
-  "github.com/urfave/negroni"
-)
-
-func main() {
-  mux := http.NewServeMux()
-  mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-    panic("oh no")
-  })
-
-  n := negroni.New()
-  recovery := negroni.NewRecovery()
-  recovery.Formatter = &negroni.HTMLPanicFormatter{}
-  n.Use(recovery)
-  n.UseHandler(mux)
-
-  http.ListenAndServe(":3003", n)
-}
-```
 
 ## Logger
 
@@ -473,18 +439,11 @@ func main() {
 Will print a log similar to:
 
 ```
-[negroni] 2017-10-04T14:56:25+02:00 | 200 |      378µs | localhost:3004 | GET /
+[negroni] Started GET /
+[negroni] Completed 200 OK in 145.446µs
 ```
 
 on each request.
-
-You can also set your own log format by calling the `SetFormat` function. The format is a template string with fields as mentioned in the `LoggerEntry` struct. So, as an example -
-
-```go
-l.SetFormat("[{{.Status}} {{.Duration}}] - {{.Request.UserAgent}}")
-```
-
-will show something like - `[200 18.263µs] - Go-User-Agent/1.1 `
 
 ## Third Party Middleware
 
@@ -493,7 +452,6 @@ linking your middleware if you have built one:
 
 | Middleware | Author | Description |
 | -----------|--------|-------------|
-| [authz](https://github.com/casbin/negroni-authz) | [Yang Luo](https://github.com/hsluoyz) | ACL, RBAC, ABAC Authorization middlware based on [Casbin](https://github.com/casbin/casbin) |
 | [binding](https://github.com/mholt/binding) | [Matt Holt](https://github.com/mholt) | Data binding from HTTP requests into structs |
 | [cloudwatch](https://github.com/cvillecsteele/negroni-cloudwatch) | [Colin Steele](https://github.com/cvillecsteele) | AWS cloudwatch metrics middleware |
 | [cors](https://github.com/rs/cors) | [Olivier Poitrey](https://github.com/rs) | [Cross Origin Resource Sharing](http://www.w3.org/TR/cors/) (CORS) support |
@@ -518,15 +476,12 @@ linking your middleware if you have built one:
 | [xrequestid](https://github.com/pilu/xrequestid) | [Andrea Franz](https://github.com/pilu) | Middleware that assigns a random X-Request-Id header to each request |
 | [mgo session](https://github.com/joeljames/nigroni-mgo-session) | [Joel James](https://github.com/joeljames) | Middleware that handles creating and closing mgo sessions per request |
 | [digits](https://github.com/bamarni/digits) | [Bilal Amarni](https://github.com/bamarni) | Middleware that handles [Twitter Digits](https://get.digits.com/) authentication |
-| [stats](https://github.com/guptachirag/stats) | [Chirag Gupta](https://github.com/guptachirag/stats) | Middleware that manages qps and latency stats for your endpoints and asynchronously flushes them to influx db |
 
 ## Examples
 
 [Alexander Rødseth](https://github.com/xyproto) created
 [mooseware](https://github.com/xyproto/mooseware), a skeleton for writing a
 Negroni middleware handler.
-
-[Prasanga Siripala](https://github.com/pjebs) created an effective skeleton structure for web-based Go/Negroni projects: [Go-Skeleton](https://github.com/pjebs/go-skeleton) 
 
 ## Live code reload?
 
