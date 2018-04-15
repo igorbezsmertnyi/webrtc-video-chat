@@ -7,8 +7,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/igorbezsmertnyi/webrtc-video-chat/db"
-	"github.com/igorbezsmertnyi/webrtc-video-chat/routes"
+	"webrtc-video-chat/models"
+	"webrtc-video-chat/routes"
+
+	"github.com/rs/cors"
 	"github.com/urfave/negroni"
 )
 
@@ -27,19 +29,26 @@ func connectDatabase() {
 		url = "user=postgres dbname=postgres sslmode=disable"
 	}
 
-	_, err := db.Connect(url)
+	db, err := models.Connect(url)
 
 	if err != nil {
 		log.Fatalf("Connection error: %s", err.Error())
 	}
+
+	models.SetDatabase(db)
 }
 
 func main() {
 	connectDatabase()
 
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+	})
+
 	addr, _ := determineListenAddress()
 	routes := routes.NewRoutes()
 	n := negroni.Classic()
+	n.Use(c)
 	n.UseHandler(routes)
 
 	s := &http.Server{

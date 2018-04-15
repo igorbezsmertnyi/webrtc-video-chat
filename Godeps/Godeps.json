@@ -14,18 +14,6 @@
 			"Rev": "eb925808374e5ca90c83401a40d711dc08c0c0f6"
 		},
 		{
-			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/db",
-			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
-		},
-		{
-			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/routes",
-			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
-		},
-		{
-			"ImportPath": "github.com/igorbezsmertnyi/webrtc-video-chat/ws",
-			"Rev": "3b8ba9ea5976c62e3a515b5c120fbfb945254262"
-		},
-		{
 			"ImportPath": "github.com/lib/pq",
 			"Comment": "go1.0-cutoff-210-gd34b9ff",
 			"Rev": "d34b9ff171c21ad295489235aec8b6626023cd04"
@@ -34,6 +22,11 @@
 			"ImportPath": "github.com/lib/pq/oid",
 			"Comment": "go1.0-cutoff-210-gd34b9ff",
 			"Rev": "d34b9ff171c21ad295489235aec8b6626023cd04"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.3.0-3-gff3499d",
+			"Rev": "ff3499d70f672914f2f1518d5713a7f838704b05"
 		},
 		{
 			"ImportPath": "github.com/urfave/negroni",

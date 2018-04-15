@@ -1,15 +1,14 @@
 package utils
 
-import (
-	"crypto/sha1"
-	"encoding/base64"
-)
+import "math/rand"
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // Slug method for genetate sha hash for user peer connection
-func Slug() string {
-	hasher := sha1.New()
-	hasher.Write(make([]byte, 64))
-	sha := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
-
-	return sha
+func RandStringBytes(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	}
+	return string(b)
 }

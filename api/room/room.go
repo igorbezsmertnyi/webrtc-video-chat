@@ -3,16 +3,13 @@ package room
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
-
+	"webrtc-video-chat/models"
 	"webrtc-video-chat/utils"
 )
-
-var db *sql.DB
 
 type e map[string]string
 
@@ -24,8 +21,11 @@ type Room struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
+var db *sql.DB
+
 // Handler for creating new room
 func Handler(w http.ResponseWriter, r *http.Request) {
+	db := models.DB
 	room, err := unmarshalRoom(r)
 
 	if err != nil {
@@ -44,7 +44,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func unmarshalRoom(r *http.Request) (*Room, error) {
-	fmt.Printf("%w", r.Body)
 	defer r.Body.Close()
 
 	var room Room
@@ -55,9 +54,7 @@ func unmarshalRoom(r *http.Request) (*Room, error) {
 		return nil, err
 	}
 
-	err = json.Unmarshal(bytes, &room)
-
-	if err != nil {
+	if err = json.Unmarshal(bytes, &room); err != nil {
 		return nil, err
 	}
 
@@ -66,16 +63,19 @@ func unmarshalRoom(r *http.Request) (*Room, error) {
 
 func createRoom(db *sql.DB, peer string) (*Room, error) {
 	created := Room{}
-	slug := utils.Slug()
+	slug := utils.RandStringBytes(64)
+	createdAt := time.Now()
 
-	row := db.QueryRow(
-		`INSERT INTO rooms (slug, peer) VALUES ($1, $2) RETURNING id, slug, peer, created_at`,
-		slug, peer,
+	row, _ := db.Query(
+		"INSERT INTO rooms (slug, peer, created_at) VALUES ($1, $2, $3) RETURNING *;",
+		slug,
+		peer,
+		createdAt,
 	)
 
-	err := row.Scan(&created.Id, &created.Slug, &created.Peer, &created.CreatedAt)
+	row.Next()
 
-	if err != nil {
+	if err := row.Scan(&created.Id, &created.Slug, &created.Peer, &created.CreatedAt); err != nil {
 		return nil, err
 	}
 

@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import Peer from '@/utils/Peer'
-
 export default {
   name: 'VideoSream',
   mounted() {

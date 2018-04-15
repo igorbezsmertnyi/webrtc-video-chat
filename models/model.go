@@ -1,4 +1,4 @@
-package db
+package models
 
 import (
 	"database/sql"
@@ -6,7 +6,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var DB *sql.DB
+
+func SetDatabase(db *sql.DB) {
+	DB = db
+}
 
 func Connect(dbURL string) (*sql.DB, error) {
 	db, err := sql.Open("postgres", dbURL)

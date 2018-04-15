@@ -2,6 +2,8 @@ package routes
 
 import (
 	"net/http"
+	"webrtc-video-chat/api/room"
+	"webrtc-video-chat/ws"
 
 	"github.com/gorilla/mux"
 )
@@ -15,16 +17,12 @@ func NewRoutes() *mux.Router {
 	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./client/dist/static/"))))
 
 	// client websocket connection
-	// mux.HandleFunc("/channel", ws.Handler).Methods("GET")
+	mux.HandleFunc("/channel", ws.Handler).Methods("GET")
 
 	// create new room request
-	// api := mux.PathPrefix("/api/").Subrouter()
+	api := mux.PathPrefix("/api/").Subrouter()
 
-	mux.HandleFunc("/room", handler).Methods("GET")
+	api.HandleFunc("/create_room", room.Handler).Methods("POST")
 
 	return mux
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	return
 }
