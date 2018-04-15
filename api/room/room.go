@@ -9,6 +9,8 @@ import (
 	"time"
 	"webrtc-video-chat/models"
 	"webrtc-video-chat/utils"
+
+	"github.com/gorilla/mux"
 )
 
 type e map[string]string
@@ -24,7 +26,7 @@ type Room struct {
 var db *sql.DB
 
 // Handler for creating new room
-func Handler(w http.ResponseWriter, r *http.Request) {
+func HandlerCreate(w http.ResponseWriter, r *http.Request) {
 	db := models.DB
 	room, err := unmarshalRoom(r)
 
@@ -41,6 +43,21 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respond(r, w, http.StatusOK, created)
+}
+
+// Handler for getting room
+func HandlerGet(w http.ResponseWriter, r *http.Request) {
+	db := models.DB
+	slug := mux.Vars(r)["slug"]
+
+	room, err := selectRoom(db, slug)
+
+	if err != nil {
+		errorResponse(r, w, err)
+		return
+	}
+
+	respond(r, w, http.StatusOK, room)
 }
 
 func unmarshalRoom(r *http.Request) (*Room, error) {
@@ -80,6 +97,23 @@ func createRoom(db *sql.DB, peer string) (*Room, error) {
 	}
 
 	return &created, nil
+}
+
+func selectRoom(db *sql.DB, slug string) (*Room, error) {
+	room := Room{}
+
+	row, _ := db.Query(
+		"SELECT * FROM rooms WHERE slug LIKE $1;",
+		slug,
+	)
+
+	row.Next()
+
+	if err := row.Scan(&room.Id, &room.Slug, &room.Peer, &room.CreatedAt); err != nil {
+		return nil, err
+	}
+
+	return &room, nil
 }
 
 func response(r *http.Request, w http.ResponseWriter, status int, bytes []byte) {

@@ -56,11 +56,28 @@ export default {
       }
     },
 
+    async getRoom({ commit }, slug) {
+      try {
+        const res = await fetch(Routes.getRoomPath(slug), {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+        const room = await res.json()
+        await commit('SET_ROOM', room)
+      } catch (err) {
+        console.error(err)
+      }
+    },
+
     checkRoom({ commit }) {
       const room = JSON.parse(localStorage.getItem('room'))
 
       if (room) {
         commit('SET_ROOM', room)
+      } else {
+        this.dispatch('getRoom', router.history.current.params.id)
       }
     }
   }
