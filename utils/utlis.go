@@ -1,6 +1,11 @@
 package utils
 
-import "math/rand"
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"math/rand"
+	"time"
+)
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -10,5 +15,9 @@ func RandStringBytes(n int) string {
 	for i := range b {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}
-	return string(b)
+
+	hasher := md5.New()
+	text := time.Now().String()
+	hasher.Write([]byte(text))
+	return hex.EncodeToString(hasher.Sum(nil)) + string(b)
 }

@@ -29,7 +29,6 @@ func Connect(dbURL string) (*sql.DB, error) {
     CREATE TABLE IF NOT EXISTS rooms (
       id       SERIAL,
 			slug		 TEXT,
-			peer		 TEXT,
       created_at TIMESTAMP
     );
   `)

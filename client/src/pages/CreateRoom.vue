@@ -7,24 +7,11 @@
 </template>
 
 <script>
-import Peer from 'simple-peer'
-
 export default {
   name: 'CreateRoom',
-  data: () => ({
-    peer: null
-  }),
-  mounted() {
-    const peer = new Peer({
-      initiator: true,
-      trickle: false
-    })
-
-    peer.on('signal', e => this.peer = e)
-  },
   methods: {
     createRoom() {
-      this.$store.dispatch('createRoom', this.peer)
+      this.$store.dispatch('createRoom')
     }
   }
 }

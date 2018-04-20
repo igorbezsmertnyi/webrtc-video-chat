@@ -19,7 +19,6 @@ type e map[string]string
 type Room struct {
 	Id        int64     `json:"id"`
 	Slug      string    `json:"slug"`
-	Peer      string    `json:"peer"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -28,14 +27,7 @@ var db *sql.DB
 // Handler for creating new room
 func HandlerCreate(w http.ResponseWriter, r *http.Request) {
 	db := models.DB
-	room, err := unmarshalRoom(r)
-
-	if err != nil {
-		errorResponse(r, w, err)
-		return
-	}
-
-	created, err := createRoom(db, room.Peer)
+	created, err := createRoom(db)
 
 	if err != nil {
 		errorResponse(r, w, err)
@@ -78,21 +70,20 @@ func unmarshalRoom(r *http.Request) (*Room, error) {
 	return &room, nil
 }
 
-func createRoom(db *sql.DB, peer string) (*Room, error) {
+func createRoom(db *sql.DB) (*Room, error) {
 	created := Room{}
 	slug := utils.RandStringBytes(64)
 	createdAt := time.Now()
 
 	row, _ := db.Query(
-		"INSERT INTO rooms (slug, peer, created_at) VALUES ($1, $2, $3) RETURNING *;",
+		"INSERT INTO rooms (slug, created_at) VALUES ($1, $2) RETURNING *;",
 		slug,
-		peer,
 		createdAt,
 	)
 
 	row.Next()
 
-	if err := row.Scan(&created.Id, &created.Slug, &created.Peer, &created.CreatedAt); err != nil {
+	if err := row.Scan(&created.Id, &created.Slug, &created.CreatedAt); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +100,7 @@ func selectRoom(db *sql.DB, slug string) (*Room, error) {
 
 	row.Next()
 
-	if err := row.Scan(&room.Id, &room.Slug, &room.Peer, &room.CreatedAt); err != nil {
+	if err := row.Scan(&room.Id, &room.Slug, &room.CreatedAt); err != nil {
 		return nil, err
 	}
 

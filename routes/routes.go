@@ -26,7 +26,7 @@ func NewRoutes() *mux.Router {
 	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./client/dist/static/"))))
 
 	// client websocket connection
-	mux.HandleFunc("/channel", ws.Handler).Methods("GET")
+	mux.HandleFunc("/channel/{slug}", ws.Handler).Methods("GET")
 
 	// create new room request
 	api := mux.PathPrefix("/api/").Subrouter()

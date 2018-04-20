@@ -5,8 +5,7 @@ export default {
   state: {
     id: null,
     slug: null,
-    peer: null,
-    createdAt: null
+    createdAt: null,
   },
 
   getters: {
@@ -17,7 +16,6 @@ export default {
     CREATE_ROOM(state, data) {
       state.id = data.id
       state.slug = data.slug
-      state.peer = data.peer
       state.createdAt = data.created_at
 
       localStorage.setItem('room', JSON.stringify(data))
@@ -26,7 +24,6 @@ export default {
     SET_ROOM(state, data) {
       state.id = data.id
       state.slug = data.slug
-      state.peer = data.peer
       state.createdAt = data.created_at
 
       localStorage.setItem('room', JSON.stringify(data))
@@ -38,14 +35,13 @@ export default {
   },
 
   actions: {
-    async createRoom({ commit }, peer) {
+    async createRoom({ commit }) {
       try {
         const res = await fetch(Routes.createRoomPath(), { 
           method: 'POST',
           headers: {
             'content-type': 'application/json'
-          },
-          body: JSON.stringify({ peer: peer.sdp })
+          }
         })
         const room = await res.json()
   
@@ -75,7 +71,7 @@ export default {
       const room = JSON.parse(localStorage.getItem('room'))
 
       if (room) {
-        commit('SET_ROOM', room)
+        commit('CREATE_ROOM', room)
       } else {
         this.dispatch('getRoom', router.history.current.params.id)
       }

@@ -9,6 +9,7 @@ import (
 
 	"webrtc-video-chat/models"
 	"webrtc-video-chat/routes"
+	"webrtc-video-chat/ws"
 
 	"github.com/rs/cors"
 	"github.com/urfave/negroni"
@@ -39,7 +40,11 @@ func connectDatabase() {
 }
 
 func main() {
-	connectDatabase()
+	go connectDatabase()
+
+	hub := ws.H
+
+	go hub.Run()
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
