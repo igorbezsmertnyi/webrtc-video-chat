@@ -6,28 +6,19 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 	"webrtc-video-chat/models"
-	"webrtc-video-chat/utils"
 
 	"github.com/gorilla/mux"
 )
 
 type e map[string]string
 
-// Room row structure
-type Room struct {
-	Id        int64     `json:"id"`
-	Slug      string    `json:"slug"`
-	CreatedAt time.Time `json:"created_at"`
-}
-
 var db *sql.DB
 
 // Handler for creating new room
 func HandlerCreate(w http.ResponseWriter, r *http.Request) {
 	db := models.DB
-	created, err := createRoom(db)
+	created, err := models.CreateRoom(db)
 
 	if err != nil {
 		errorResponse(r, w, err)
@@ -42,7 +33,7 @@ func HandlerGet(w http.ResponseWriter, r *http.Request) {
 	db := models.DB
 	slug := mux.Vars(r)["slug"]
 
-	room, err := selectRoom(db, slug)
+	room, err := models.SelectRoom(db, slug)
 
 	if err != nil {
 		errorResponse(r, w, err)
@@ -52,10 +43,10 @@ func HandlerGet(w http.ResponseWriter, r *http.Request) {
 	respond(r, w, http.StatusOK, room)
 }
 
-func unmarshalRoom(r *http.Request) (*Room, error) {
+func unmarshalRoom(r *http.Request) (*models.Room, error) {
 	defer r.Body.Close()
 
-	var room Room
+	var room models.Room
 
 	bytes, err := ioutil.ReadAll(r.Body)
 
@@ -64,43 +55,6 @@ func unmarshalRoom(r *http.Request) (*Room, error) {
 	}
 
 	if err = json.Unmarshal(bytes, &room); err != nil {
-		return nil, err
-	}
-
-	return &room, nil
-}
-
-func createRoom(db *sql.DB) (*Room, error) {
-	created := Room{}
-	slug := utils.RandStringBytes(64)
-	createdAt := time.Now()
-
-	row, _ := db.Query(
-		"INSERT INTO rooms (slug, created_at) VALUES ($1, $2) RETURNING *;",
-		slug,
-		createdAt,
-	)
-
-	row.Next()
-
-	if err := row.Scan(&created.Id, &created.Slug, &created.CreatedAt); err != nil {
-		return nil, err
-	}
-
-	return &created, nil
-}
-
-func selectRoom(db *sql.DB, slug string) (*Room, error) {
-	room := Room{}
-
-	row, _ := db.Query(
-		"SELECT * FROM rooms WHERE slug LIKE $1;",
-		slug,
-	)
-
-	row.Next()
-
-	if err := row.Scan(&room.Id, &room.Slug, &room.CreatedAt); err != nil {
 		return nil, err
 	}
 

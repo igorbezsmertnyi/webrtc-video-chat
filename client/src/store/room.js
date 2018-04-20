@@ -6,6 +6,7 @@ export default {
     id: null,
     slug: null,
     createdAt: null,
+    created: false
   },
 
   getters: {
@@ -17,6 +18,7 @@ export default {
       state.id = data.id
       state.slug = data.slug
       state.createdAt = data.created_at
+      state.created = true
 
       localStorage.setItem('room', JSON.stringify(data))
     },
@@ -70,7 +72,7 @@ export default {
     checkRoom({ commit }) {
       const room = JSON.parse(localStorage.getItem('room'))
 
-      if (room) {
+      if (room && (room.id == router.history.current.params.id)) {
         commit('CREATE_ROOM', room)
       } else {
         this.dispatch('getRoom', router.history.current.params.id)
