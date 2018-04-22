@@ -2,8 +2,7 @@
   <div class="lost-conn">
     <svg-icon src="network" />
     <p>
-      Ops, connection losted.
-      Please wait we try to reconnect you
+      Oops, connection lost. Please wait we try to reconnect you
     </p>
   </div>
 </template>
