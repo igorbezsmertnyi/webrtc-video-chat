@@ -28,8 +28,9 @@ export default {
   actions: {
     setPeer({ commit }, data) {
       const peer = new Peer({
-        initiator: data,
-        trickle: false
+        initiator: data.init,
+        trickle: false,
+        stream: data.stream
       })
 
       commit('SET_PEER', peer)

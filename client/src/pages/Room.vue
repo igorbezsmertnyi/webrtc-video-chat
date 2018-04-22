@@ -1,22 +1,26 @@
 <template>
   <div>
-    <video-stream class="stream" />
+    <own-pic :stream="ownStream" />
+    <other-pic :stream="otherStream" />
   </div>
 </template>
 
 <script>
-import VideoStream from '@/components/VideoStream'
-import Peer from 'simple-peer'
+import OwnPic from '@/components/Stream/OwnPic'
+import OtherPic from '@/components/Stream/OtherPic'
 import Routes from '@/static/routes'
 
 export default {
   name: 'Room',
   data: () => ({
     id: null,
-    ws: null
+    ws: null,
+    ownStream: null,
+    otherStream: null
   }),
   components: {
-    VideoStream
+    OwnPic,
+    OtherPic
   },
   beforeMount() {
     this.id = Math.random().toString(36).substr(2, 9)
@@ -24,31 +28,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('checkRoom')
-    this.$store.dispatch('setPeer', this.room.created)
-
-    if (!this.room.created) this.ws.onopen = () => this.newObject()
-
-    this.currentPeer.on('signal', e => {
-      this.$store.dispatch('setConn', e)
-      console.info('command SIGNAL')
-
-      if (!this.room.created) this.connObject()
-    })
-
-    this.ws.onmessage = e => {
-      const wsData = JSON.parse(e.data)
-
-      switch (wsData.command) {
-        case 'NEW':
-          this.newCommand(wsData)
-          break
-        case 'CONN':
-          this.connCommand(wsData)
-          break 
-      }
-    }
-
-    this.currentPeer.on('connect', () => console.info(`peer conncection created`))
+    this.startStream()
   },
   methods: {
     newCommand(data) {
@@ -66,6 +46,7 @@ export default {
     },
 
     newObject() {
+      console.log('test newObject')
       const obj = JSON.stringify({
         id: this.id,
         command: 'NEW'
@@ -82,6 +63,57 @@ export default {
       })
 
       this.ws.send(obj)
+    },
+
+    startStream() {
+      navigator.getMedia = (
+        navigator.getUserMedia || 
+        navigator.webkitGetUserMedia || 
+        navigator.mozGetUserMedia || 
+        navigator.msGetUserMedia
+      )
+
+      const handleSuccess = stream => {
+        this.ownStream = stream
+        this.$store.dispatch('setPeer', { stream: stream, init: this.room.created })
+
+        this.listenWs()
+
+        this.currentPeer.on('connect', () => console.info(`peer conncection created`))
+        this.currentPeer.on('stream', stream => this.otherStream = stream)
+      }
+
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then(handleSuccess)
+        .catch(this.logError)
+    },
+
+    listenWs() {
+      if (!this.room.created) this.newObject()
+
+      this.currentPeer.on('signal', e => {
+        this.$store.dispatch('setConn', e)
+        console.info('command SIGNAL')
+
+        if (!this.room.created) this.connObject()
+      })
+
+      this.ws.onmessage = e => {
+        const wsData = JSON.parse(e.data)
+
+        switch (wsData.command) {
+          case 'NEW':
+            this.newCommand(wsData)
+            break
+          case 'CONN':
+            this.connCommand(wsData)
+            break 
+        }
+      }
+    },
+
+    logError(err) {
+      console.error(`${err.name}: ${err.message}`)
     }
   },
   computed: {
