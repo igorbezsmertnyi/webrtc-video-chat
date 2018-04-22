@@ -16,7 +16,7 @@ export default {
     id: null,
     ws: null,
     ownStream: null,
-    otherStream: null
+    otherStream: null,
   }),
   components: {
     OwnPic,
@@ -46,7 +46,6 @@ export default {
     },
 
     newObject() {
-      console.log('test newObject')
       const obj = JSON.stringify({
         id: this.id,
         command: 'NEW'
@@ -78,9 +77,7 @@ export default {
         this.$store.dispatch('setPeer', { stream: stream, init: this.room.created })
 
         this.listenWs()
-
-        this.currentPeer.on('connect', () => console.info(`peer conncection created`))
-        this.currentPeer.on('stream', stream => this.otherStream = stream)
+        this.peerConnected()
       }
 
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -93,9 +90,21 @@ export default {
 
       this.currentPeer.on('signal', e => {
         this.$store.dispatch('setConn', e)
-        console.info('command SIGNAL')
+        console.info(`SIGNAL ${e.type}`)
 
         if (!this.room.created) this.connObject()
+      })
+
+      this.currentPeer.on('close', () => {
+        if (!this.currentPeer.connected) {
+          console.log('peer conncetion cloused')
+
+          this.$store.dispatch('destroyPeer')
+          this.$store.dispatch('setPeer', { stream: this.ownStream, init: this.room.created })
+
+          this.listenWs()
+          this.peerConnected()
+        }
       })
 
       this.ws.onmessage = e => {
@@ -110,6 +119,11 @@ export default {
             break 
         }
       }
+    },
+
+    peerConnected() {
+      this.currentPeer.on('connect', () => console.info('peer conncection created'))
+      this.currentPeer.on('stream', stream => this.otherStream = stream)
     },
 
     logError(err) {

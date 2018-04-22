@@ -22,6 +22,12 @@ export default {
     SET_CONN(state, data) {
       state.conn.sdp = data.sdp
       state.conn.type = data.type
+    },
+
+    DESTROY_PEER(state) {
+      state.peer = null
+      state.conn.sdp = null
+      state.conn.type = null
     }
   },
 
@@ -38,6 +44,10 @@ export default {
 
     setConn({ commit }, data) {
       commit('SET_CONN', data)
+    },
+
+    destroyPeer({ commit }) {
+      commit('DESTROY_PEER')
     }
   }
 }

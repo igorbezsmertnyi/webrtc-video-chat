@@ -20,7 +20,7 @@ export default {
       state.createdAt = data.created_at
       state.created = true
 
-      localStorage.setItem('room', JSON.stringify(data))
+      localStorage.setItem('room', JSON.stringify(state))
     },
 
     SET_ROOM(state, data) {
@@ -28,7 +28,7 @@ export default {
       state.slug = data.slug
       state.createdAt = data.created_at
 
-      localStorage.setItem('room', JSON.stringify(data))
+      localStorage.setItem('room', JSON.stringify(state))
     },
 
     LEAVE_ROOM(state, id) {
@@ -72,7 +72,7 @@ export default {
     checkRoom({ commit }) {
       const room = JSON.parse(localStorage.getItem('room'))
 
-      if (room && (room.id == router.history.current.params.id)) {
+      if (room && (room.slug == router.history.current.params.id) && room.created) {
         commit('CREATE_ROOM', room)
       } else {
         this.dispatch('getRoom', router.history.current.params.id)
