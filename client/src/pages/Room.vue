@@ -1,6 +1,6 @@
 <template>
   <div>
-    <own-pic :stream="ownStream" />
+    <own-pic :stream="ownStream" :streaming="streaming" />
     <other-pic :stream="otherStream" :lostConn="lostConn" />
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
     ws: null,
     ownStream: null,
     otherStream: null,
-    lostConn: false
+    lostConn: false,
+    streaming: false
   }),
   components: {
     OwnPic,
@@ -127,6 +128,7 @@ export default {
     peerConnected() {
       this.currentPeer.on('connect', () => console.info('peer conncection created'))
       this.currentPeer.on('stream', stream => { 
+        this.streaming = true
         this.lostConn = false
         this.otherStream = stream 
       })
