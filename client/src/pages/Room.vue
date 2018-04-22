@@ -82,7 +82,7 @@ export default {
         this.peerConnected()
       }
 
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         .then(handleSuccess)
         .catch(this.logError)
     },
