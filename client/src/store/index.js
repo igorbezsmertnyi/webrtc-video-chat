@@ -1,5 +1,6 @@
 import Vuex from 'vuex'
 import 'es6-promise/auto'
+
 import Room from './room'
 import Peer from './peer'
 

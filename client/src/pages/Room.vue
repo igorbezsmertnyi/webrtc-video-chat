@@ -13,10 +13,7 @@ export default {
   name: 'Room',
   data: () => ({
     id: null,
-    ws: null,
-    peer: null,
-    conn: null,
-    otherConn: null
+    ws: null
   }),
   components: {
     VideoStream
@@ -27,47 +24,45 @@ export default {
   },
   mounted() {
     this.$store.dispatch('checkRoom')
-
-    this.peer = new Peer({
-      initiator: this.room.created,
-      trickle: false
-    })
+    this.$store.dispatch('setPeer', this.room.created)
 
     if (!this.room.created) this.ws.onopen = () => this.newObject()
 
-    this.peer.on('signal', e => {
-      this.conn = e
+    this.currentPeer.on('signal', e => {
+      this.$store.dispatch('setConn', e)
+      console.info('command SIGNAL')
 
-      console.info('commang SIGNAL')
       if (!this.room.created) this.connObject()
     })
 
     this.ws.onmessage = e => {
-      switch (JSON.parse(e.data).command) {
+      const wsData = JSON.parse(e.data)
+
+      switch (wsData.command) {
         case 'NEW':
-          this.newCommand(JSON.parse(e.data))
+          this.newCommand(wsData)
           break
         case 'CONN':
-          this.connCommand(JSON.parse(e.data))
+          this.connCommand(wsData)
           break 
       }
     }
 
-    this.peer.on('connect', () => console.info(`peer conncection created`))
+    this.currentPeer.on('connect', () => console.info(`peer conncection created`))
   },
   methods: {
     newCommand(data) {
       if (data.id === this.id || !this.room.created) return
 
-      console.info('commang NEW')
+      console.info('command NEW')
       this.connObject()
     },
 
     connCommand(data) {
       if (data.id === this.id) return
 
-      console.info('commang CONN')
-      this.peer.signal(data.peer)
+      console.info('command CONN')
+      this.currentPeer.signal(data.peer)
     },
 
     newObject() {
@@ -83,7 +78,7 @@ export default {
       const obj = JSON.stringify({
         id: this.id,
         command: 'CONN',
-        peer: this.conn
+        peer: this.currentConn
       })
 
       this.ws.send(obj)
@@ -92,6 +87,14 @@ export default {
   computed: {
     room() {
       return this.$store.getters.room
+    },
+
+    currentPeer() {
+      return this.$store.getters.currentPeer
+    },
+
+    currentConn() {
+      return this.$store.getters.currentConn
     }
   }
 }

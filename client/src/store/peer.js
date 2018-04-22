@@ -2,44 +2,41 @@ import Peer from 'simple-peer'
 
 export default {
   state: {
-    peer: {
+    peer: null,
+    conn: {
       sdp: null,
       type: null
     }
   },
 
   getters: {
-    currentPeer: state => state.peer
+    currentPeer: state => state.peer,
+    currentConn: state => state.conn
   },
 
   mutations: {
     SET_PEER(state, data) {
-      state.peer.sdp = data.sdp
-      state.peer.type = data.type
+      state.peer = data
+    },
+
+    SET_CONN(state, data) {
+      state.conn.sdp = data.sdp
+      state.conn.type = data.type
     }
   },
 
   actions: {
     setPeer({ commit }, data) {
-      commit('SET_PEER', data)
-    },
-
-    createPeer({ commit }, data) {
       const peer = new Peer({
-        initiator: true,
+        initiator: data,
         trickle: false
       })
-  
-      peer.on('signal', e => commit('SET_PEER', e))
+
+      commit('SET_PEER', peer)
     },
 
-    connectPeer({ commit }, data) {
-      console.log('connect')
-      this.state.peer.signal(data)
-    },
-
-    send({ commit, state }, data) {
-      console.log(this, data, state.peer)
+    setConn({ commit }, data) {
+      commit('SET_CONN', data)
     }
   }
 }
