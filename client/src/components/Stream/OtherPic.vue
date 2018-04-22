@@ -1,13 +1,20 @@
 <template>
   <div class="other-pic">
+    <lost-connection v-show="lostConn" />
+
     <video id="otherPic" class="other-pic__video" ref="otherPic" autoplay playsinline />
   </div>
 </template>
 
 <script>
+import LostConnection from '@/components/LostConnection'
+
 export default {
   name: 'OtherPic',
-  props: ['stream'],
+  props: ['stream', 'lostConn'],
+  components: {
+    LostConnection
+  },
   watch: {
     stream(val) { this.startStream(val) }
   },
@@ -26,6 +33,8 @@ export default {
 </script>
 
 <style lang="stylus">
+  @import '../../styles'
+
   .other-pic
     position relative
     width 100%

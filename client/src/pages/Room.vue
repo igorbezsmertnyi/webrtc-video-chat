@@ -1,7 +1,7 @@
 <template>
   <div>
     <own-pic :stream="ownStream" />
-    <other-pic :stream="otherStream" />
+    <other-pic :stream="otherStream" :lostConn="lostConn" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
     ws: null,
     ownStream: null,
     otherStream: null,
+    lostConn: false
   }),
   components: {
     OwnPic,
@@ -80,7 +81,7 @@ export default {
         this.peerConnected()
       }
 
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         .then(handleSuccess)
         .catch(this.logError)
     },
@@ -97,6 +98,8 @@ export default {
 
       this.currentPeer.on('close', () => {
         if (!this.currentPeer.connected) {
+          this.lostConn = true
+
           console.log('peer conncetion cloused')
 
           this.$store.dispatch('destroyPeer')
@@ -123,7 +126,10 @@ export default {
 
     peerConnected() {
       this.currentPeer.on('connect', () => console.info('peer conncection created'))
-      this.currentPeer.on('stream', stream => this.otherStream = stream)
+      this.currentPeer.on('stream', stream => { 
+        this.lostConn = false
+        this.otherStream = stream 
+      })
     },
 
     logError(err) {
@@ -154,13 +160,6 @@ export default {
     background rgba(0,0,0, .75)
     color green
     z-index 2
-
-    &__flag
-      color red
-
-  .stream
-    position relative
-    z-index 1
 
   button
     position absolute
