@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 70 70" style="enable-background:new 0 0 70 70;" xml:space="preserve">
+<style type="text/css">
+	.copy{fill:url(#COPY);}
+</style>
+<linearGradient id="COPY" gradientUnits="userSpaceOnUse" x1="8.3515" y1="35" x2="63.5484" y2="35">
+	<stop  offset="0" style="stop-color:#8000FF"/>
+	<stop  offset="1" style="stop-color:#15D3FF"/>
+</linearGradient>
+<path class="copy" d="M48.9,0H16.3v10.3H8.4V70h47.3V59.7h7.9V14.6L48.9,0z M49.8,13.7V5.3l8.4,8.4H49.8z M47.4,16.8h13.1v39.8h-4.9
+	V24.9L47.4,16.8z M46.8,3.1v13l-5.8-5.8H19.5V3.1H46.8z M41.9,24v-8.4l8.4,8.4H41.9z M52.5,27.1v39.8H11.5V13.4h27.3v13.7H52.5z"/>
+</svg>

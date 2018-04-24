@@ -1,0 +1,44 @@
+.dock-btn
+  width 54px
+  height 54px
+  border-radius 8px
+  margin 0 10px 0 0
+  transition ease-in .2s
+  cursor pointer
+
+  &:last-child
+    margin 0
+
+  &:hover
+    background transparentify(#fff, .6)
+    transition ease-in .2s
+
+  &--active
+    background transparentify($imperial-primer, .4)
+
+    &:hover
+      background transparentify($imperial-primer, .3)
+      transition ease-in .2s
+
+  button
+    background transparent 
+    border 0
+    box-shadow none 
+    margin 0
+    padding 8px
+    cursor pointer
+    display flex
+    justify-content center
+    align-items center
+
+    svg
+      width 80%
+      height 42px
+
+.el-message
+  background $imperial-primer !important
+  border 0
+  
+  p
+  i
+    color #fff !important

@@ -2,12 +2,16 @@
   <div>
     <own-pic :stream="ownStream" :streaming="streaming" />
     <other-pic :stream="otherStream" :lostConn="lostConn" />
+    <dock />
+    <screen-img />
   </div>
 </template>
 
 <script>
 import OwnPic from '@/components/Stream/OwnPic'
 import OtherPic from '@/components/Stream/OtherPic'
+import Dock from '@/components/Dock'
+import ScreenImg from '@/components/ScreenImg'
 import Routes from '@/static/routes'
 
 export default {
@@ -22,7 +26,9 @@ export default {
   }),
   components: {
     OwnPic,
-    OtherPic
+    OtherPic,
+    Dock,
+    ScreenImg
   },
   beforeMount() {
     this.id = Math.random().toString(36).substr(2, 9)

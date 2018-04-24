@@ -30,7 +30,7 @@ export default {
     display flex
     justify-content center
     align-items center
-    background $whisper
+    background $imperial-primer
     flex-flow column
     z-index 3
 
@@ -40,4 +40,5 @@ export default {
 
     p
       padding 0 14px
+      color #fff
 </style>

@@ -2,13 +2,13 @@
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 54.9 54.9" style="enable-background:new 0 0 54.9 54.9;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:url(#SVGID_1_);}
+	.net{fill:url(#NET);}
 </style>
-<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-2.499893e-04" y1="27.455" x2="54.9082" y2="27.455">
+<linearGradient id="NET" gradientUnits="userSpaceOnUse" x1="-2.499893e-04" y1="27.455" x2="54.9082" y2="27.455">
 	<stop  offset="0" style="stop-color:#15D3FF"/>
 	<stop  offset="1" style="stop-color:#8000FF"/>
 </linearGradient>
-<path class="st0" d="M54.6,19.1C47.4,11.9,37.7,7.9,27.5,7.9s-19.9,4-27.2,11.2c-0.4,0.4-0.4,1,0,1.4s1,0.4,1.4,0
+<path class="net" d="M54.6,19.1C47.4,11.9,37.7,7.9,27.5,7.9s-19.9,4-27.2,11.2c-0.4,0.4-0.4,1,0,1.4s1,0.4,1.4,0
 	c6.9-6.9,16-10.6,25.7-10.6s18.9,3.8,25.7,10.6c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3C55,20.1,55,19.5,54.6,19.1z M6.2,25
 	c-0.4,0.4-0.4,1,0,1.4c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3c11-11,28.8-11,39.7,0c0.4,0.4,1,0.4,1.4,0s0.4-1,0-1.4
 	C37,13.3,17.9,13.3,6.2,25z M27.5,24.5c-5.8,0-11.3,2.3-15.4,6.4c-0.4,0.4-0.4,1,0,1.4s1,0.4,1.4,0c3.7-3.7,8.7-5.8,14-5.8
