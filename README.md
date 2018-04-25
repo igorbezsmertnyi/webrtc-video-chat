@@ -1,21 +1,21 @@
-# video-chat
+# WebRTC video chat
+___
 
-> A Vue.js project
+The application builds on [Simple Peer](https://github.com/feross/simple-peer) node module, for opening peer connection between browsers and Go signal server with connect via WebSocket protocol to a user and sending command necessary for connection is done.
 
-## Build Setup
+### Start Application
 
-``` bash
-# install dependencies
-npm install
+1. Clone the repostitory
+2. Install nodejs
+3. Install golang
+4. Install postgresql
+5. Run following command:
 
-# serve with hot reload at localhost:8080
-npm run dev
+> `go install`<br/>
+> `go run main.go`<br/>
+> `npm install`<br/>
+> `npm run dev`<br/>
 
-# build for production with minification
-npm run build
+Make sure that `psql` service working. Also, you need to have `postgres` user and `postgres` dbname.
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+For start `postgres` you able to use Docker, by run `docker-compose up` command.

@@ -18,7 +18,7 @@
         <div class="create-room__footer__logo">
           <img src="../assets/gh-logo.png" alt="Git Hub Igor Bezsmertnyi" />
         </div>
-        <p>Igor Bezsmertnyi <br /> WebRTC video chat</p>
+        <p>Igor Bezsmertnyi  WebRTC video chat</p>
       </a>
     </footer>
   </div>
@@ -64,7 +64,7 @@ export default {
       z-index 2
 
       h1
-        margin 0 0 20px
+        margin 0 0 10px
         font-size 4em
         font-weight 200
 
@@ -72,6 +72,7 @@ export default {
         font-weight 300
         font-size 1.4em
         letter-spacing 2px
+        margin-top 0
 
     &__card
       position relative
@@ -112,6 +113,9 @@ export default {
         flex-direction column
         font-family  'Helvetica Neue', Helvetica, 'PingFang SC'
 
+        &:visited
+          text-decoration none
+
       &__logo 
         width 64px
         height 64px
@@ -126,4 +130,5 @@ export default {
         color #fff
         text-transform uppercase
         line-height 1.4
+        font-weight 200
 </style>
