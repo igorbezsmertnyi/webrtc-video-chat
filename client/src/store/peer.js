@@ -36,7 +36,17 @@ export default {
       const peer = new Peer({
         initiator: data.init,
         trickle: false,
-        stream: data.stream
+        stream: data.stream,
+        config: {
+          iceServers: [
+            {
+              urls: 'stun:stun.l.google.com:19302'
+            }, 
+            {
+              urls: 'stun:global.stun.twilio.com:3478'
+            }
+          ],
+        },
       })
 
       commit('SET_PEER', peer)

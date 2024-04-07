@@ -27,7 +27,7 @@ func connectDatabase() {
 	url := os.Getenv("DATABASE_URL")
 
 	if url == "" {
-		url = "user=postgres dbname=postgres sslmode=disable"
+		url = "user=postgres dbname=postgres password=postgres sslmode=disable"
 	}
 
 	db, err := models.Connect(url)
